@@ -4,12 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - pillar_wall
-  - pillar_stack
-  - win_state
-  - start_state
-  - pillar_none_stack
-  - win_race
+  - EnableStack
+  - UnEnableStack
+  - Wall
+  - StandStack
+  - WinPos
+  - EndPos
+  - WalkableStack
   layers:
   - Default
   - TransparentFX
