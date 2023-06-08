@@ -44,8 +44,7 @@ public class PlayerStack : MonoBehaviour
         if (other.CompareTag(Const.ENABLE_STACK_TAG))
         {
             PushToStack();
-            SetAnimState(1);
-            Invoke(nameof(SetIdleAnim), 0.1f);
+            //Invoke(nameof(SetIdleAnim), 0.1f);
         }
 
         if (other.CompareTag(Const.UNENABLE_STACK_TAG))
@@ -55,22 +54,21 @@ public class PlayerStack : MonoBehaviour
 
         if (other.CompareTag(Const.WIN_POS_TAG))
         {
-            SetAnimState(2);
             IsWin = true;
             //treasureManager.WaitToOpenTreasure(1f);
         }
     }
 
-    public void SetAnimState(int state)
-    {
-        animState = state;
-        anim.SetInteger(ACTION_ANIM, animState);
-    }
+    //public void SetAnimState(int state)
+    //{
+    //    animState = state;
+    //    anim.SetInteger(ACTION_ANIM, animState);
+    //}
 
-    public void SetIdleAnim()
-    {
-        SetAnimState(0);
-    }
+    //public void SetIdleAnim()
+    //{
+    //    //SetAnimState(0);
+    //}
 
 
     private void PushToStack()
