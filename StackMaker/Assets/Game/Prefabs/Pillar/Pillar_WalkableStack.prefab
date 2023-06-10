@@ -120,6 +120,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: WalkableStack
       objectReference: {fileID: 0}
+    - target: {fileID: 4820978917025329952, guid: 4259f96330dba5e44a63aee7d15949a3,
+        type: 3}
+      propertyPath: m_TagString
+      value: WalkableStack
+      objectReference: {fileID: 0}
+    - target: {fileID: 4820978917025329954, guid: 4259f96330dba5e44a63aee7d15949a3,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4820978917025329955, guid: 4259f96330dba5e44a63aee7d15949a3,
         type: 3}
       propertyPath: m_RootOrder
@@ -133,7 +143,7 @@ PrefabInstance:
     - target: {fileID: 4820978917025329955, guid: 4259f96330dba5e44a63aee7d15949a3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 4.24
       objectReference: {fileID: 0}
     - target: {fileID: 4820978917025329955, guid: 4259f96330dba5e44a63aee7d15949a3,
         type: 3}

@@ -5,8 +5,7 @@ using UnityEngine;
 public class PlayerStack : MonoBehaviour
 {
     public Animator anim;
-    private string ACTION_ANIM = "Action";
-
+    
     public GameObject standStackPrefabs;
 
     public Transform stackContainer;
@@ -21,7 +20,7 @@ public class PlayerStack : MonoBehaviour
     private float stackHeight = 0.3f;
 
     #region Instance
-    //private TreasureManager treasureManager;
+    private TreasureManager treasureManager;
     #endregion
 
     #region Singleton
@@ -34,41 +33,34 @@ public class PlayerStack : MonoBehaviour
 
     void Start()
     {
-        //treasureManager = TreasureManager.Ins;
+        treasureManager = TreasureManager.Ins;
 
         _Stack = new Stack<GameObject>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag(Const.WIN_POS_TAG))
+        {
+            IsWin = true;
+            RunAnim(true);
+            treasureManager.OpenTreasure();
+        }
         if (other.CompareTag(Const.ENABLE_STACK_TAG))
         {
             PushToStack();
-            //Invoke(nameof(SetIdleAnim), 0.1f);
         }
-
+        Debug.Log(other.CompareTag(Const.UNENABLE_STACK_TAG));
         if (other.CompareTag(Const.UNENABLE_STACK_TAG))
         {
             PopFromStack(other.transform.position + Vector3.down * stackHeight);
         }
-
-        if (other.CompareTag(Const.WIN_POS_TAG))
-        {
-            IsWin = true;
-            //treasureManager.WaitToOpenTreasure(1f);
-        }
     }
 
-    //public void SetAnimState(int state)
-    //{
-    //    animState = state;
-    //    anim.SetInteger(ACTION_ANIM, animState);
-    //}
-
-    //public void SetIdleAnim()
-    //{
-    //    //SetAnimState(0);
-    //}
+    public void RunAnim(bool isWin)
+    {
+        anim.SetBool("isWin", isWin);
+    }
 
 
     private void PushToStack()
