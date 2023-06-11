@@ -15,8 +15,6 @@ public class PlayerStack : MonoBehaviour
 
     private Stack<GameObject> _Stack;
 
-    private int animState = 0;
-
     private float stackHeight = 0.3f;
 
     #region Instance
@@ -50,7 +48,6 @@ public class PlayerStack : MonoBehaviour
         {
             PushToStack();
         }
-        Debug.Log(other.CompareTag(Const.UNENABLE_STACK_TAG));
         if (other.CompareTag(Const.UNENABLE_STACK_TAG))
         {
             PopFromStack(other.transform.position + Vector3.down * stackHeight);
@@ -61,7 +58,6 @@ public class PlayerStack : MonoBehaviour
     {
         anim.SetBool("isWin", isWin);
     }
-
 
     private void PushToStack()
     {
