@@ -16,5 +16,6 @@ public class Const : MonoBehaviour
     public const string COIN = "Coin";
     public const string LEVEL = "Level";
     public const string CUR_VOLUME_ICON_ID = "Cur_vol_icon_id";
+    public const string MUSIC_VOLUME = "Music_volume";
     #endregion
 }

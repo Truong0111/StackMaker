@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Pref
 {
-
     public static int Coin
     {
         set => PlayerPrefs.SetInt(Const.COIN, value);
@@ -20,6 +19,11 @@ public class Pref
     {
         set => PlayerPrefs.SetInt(Const.CUR_VOLUME_ICON_ID, value);
         get => PlayerPrefs.GetInt(Const.CUR_VOLUME_ICON_ID);
+    }
+    public static float MusicVolume
+    {
+        set => PlayerPrefs.SetFloat(Const.MUSIC_VOLUME, value);
+        get => PlayerPrefs.GetFloat(Const.MUSIC_VOLUME);
     }
     public static void SetBool(string key, bool isUnlock)
     {

@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (PlayerStack.Ins.IsWin) _canMove = false;
         if (_canMove)
         {
             if ((_playerTranform.position - targetPos).sqrMagnitude > 0.0001f)
@@ -66,7 +67,6 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(startRay, direct, out hit, 2f))
         {
-            Debug.Log("Hit " + hit.transform.name);
             if (hit.transform.CompareTag(Const.ENABLE_STACK_TAG) ||
                 hit.transform.CompareTag(Const.UNENABLE_STACK_TAG) ||
                 hit.transform.CompareTag(Const.WALKABLE_STACK_TAG))

@@ -11,37 +11,34 @@ public class VolumeManager : MonoBehaviour
     {
         StartVolume();
     }
-    #region Instance
-    private VolumeController volumeController;
-    #endregion
     private void StartVolume()
     {
         if(!PlayerPrefs.HasKey(Const.CUR_VOLUME_ICON_ID))
         {
-            PlayerPrefs.SetInt(Const.CUR_VOLUME_ICON_ID, 1);
+            Pref.CurVolIconId = 1;
             currentImage.sprite = VolumeOn;
-            volumeController.SetVolumeOn();
+            VolumeController.Ins.SetVolumeOn();
         }
         else
         {
-            if (PlayerPrefs.GetInt(Const.CUR_VOLUME_ICON_ID) == 1)
+            if (Pref.CurVolIconId == 1)
                 currentImage.sprite = VolumeOn;
             else currentImage.sprite = VolumeOff;
         }
     }
     public void VolumeChange()
     {
-        if (PlayerPrefs.GetInt(Const.CUR_VOLUME_ICON_ID) == 1)
+        if (Pref.CurVolIconId == 1)
         {
             currentImage.sprite = VolumeOff;
-            PlayerPrefs.SetInt(Const.CUR_VOLUME_ICON_ID, 0);
-            volumeController.SetVolumeOff();
+            Pref.CurVolIconId = 0;
+            VolumeController.Ins.SetVolumeOff();
         }
         else
         {
             currentImage.sprite = VolumeOn;
-            PlayerPrefs.SetInt(Const.CUR_VOLUME_ICON_ID, 1);
-            volumeController.SetVolumeOn();
+            Pref.CurVolIconId = 1;
+            VolumeController.Ins.SetVolumeOn();
         }
     }
 }

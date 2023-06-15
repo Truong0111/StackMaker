@@ -17,10 +17,6 @@ public class PlayerStack : MonoBehaviour
 
     private float stackHeight = 0.3f;
 
-    #region Instance
-    private TreasureManager treasureManager;
-    #endregion
-
     #region Singleton
     public static PlayerStack Ins;
     private void Awake()
@@ -31,8 +27,6 @@ public class PlayerStack : MonoBehaviour
 
     void Start()
     {
-        treasureManager = TreasureManager.Ins;
-
         _Stack = new Stack<GameObject>();
     }
 
@@ -42,14 +36,18 @@ public class PlayerStack : MonoBehaviour
         {
             IsWin = true;
             RunAnim(true);
-            treasureManager.OpenTreasure();
+            SfxController.Ins.PlayLevelCompleteSfx();
+            TreasureManager.Ins.OpenTreasure();
+            SfxController.Ins.PlayOpenChestSfx();
         }
         if (other.CompareTag(Const.ENABLE_STACK_TAG))
         {
+            SfxController.Ins.PlayPushStackSfx();
             PushToStack();
         }
         if (other.CompareTag(Const.UNENABLE_STACK_TAG))
         {
+            SfxController.Ins.PlayPopStackSfx();
             PopFromStack(other.transform.position + Vector3.down * stackHeight);
         }
     }
