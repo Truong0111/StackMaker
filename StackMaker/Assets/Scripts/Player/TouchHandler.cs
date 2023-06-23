@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class TouchHandler : MonoBehaviour
 {
-    private const int TouchHold = 111;
+    private const int TouchHoldThreshold  = 111;
 
-    public static Action<Direction> OnSwipt;
+    public static Action<Direction> OnSwipe;
     private Direction _direction = Direction.None;
 
     private Vector2 _touchPos, _touchDis;
@@ -22,7 +22,6 @@ public class TouchHandler : MonoBehaviour
         {
             _isDragging = false;
             _touchPos = Vector2.zero;
-            _touchDis = Vector2.zero;
         }
         _touchDis = Vector2.zero;
 
@@ -34,33 +33,33 @@ public class TouchHandler : MonoBehaviour
             }
         }
 
-        if (!(_touchDis.magnitude > TouchHold)) return;
+        if (!(_touchDis.magnitude > TouchHoldThreshold )) return;
         var x = _touchDis.x;
         var y = _touchDis.y;
         if(Mathf.Abs(x) > Mathf.Abs(y))
         {
-            UpdateDirection(x < 0 ? Direction.SwiptLeft : Direction.SwiptRight);
+            UpdateDirection(x < 0 ? Direction.SwipeLeft : Direction.SwipeRight);
         }
         else
         {
-            UpdateDirection(y < 0 ? Direction.SwiptBackward : Direction.SwiptForward);
+            UpdateDirection(y < 0 ? Direction.SwipeBackward : Direction.SwipeForward);
         }
     }
     private void UpdateDirection(Direction direct)
     {
-        if (OnSwipt != null && _direction != direct)
+        if (OnSwipe != null && _direction != direct)
         {
             _direction = direct;
-            OnSwipt(_direction);
+            OnSwipe(_direction);
         }
     }
 }
 
 public enum Direction
 {
-    SwiptLeft,
-    SwiptRight,
-    SwiptForward,
-    SwiptBackward,
+    SwipeLeft,
+    SwipeRight,
+    SwipeForward,
+    SwipeBackward,
     None
 }

@@ -11,14 +11,24 @@ public class PlayerController : MonoBehaviour
     private Transform _playerTranform;
     private Vector3 _targetPos;
 
-
+    
     private void Awake()
     {
-        _playerTranform = GetComponent<Transform>();
-        TouchHandler.OnSwipt += FindTarget;
+        InitAwake();
     }
 
     private void Update()
+    {
+        InitUpdate();
+    }
+
+    private void InitAwake()
+    {
+        _playerTranform = GetComponent<Transform>();
+        TouchHandler.OnSwipe += FindTarget;
+    }
+
+    private void InitUpdate()
     {
         if (PlayerStack.Ins.IsWin) _canMove = false;
         if (!_canMove) return;
@@ -32,23 +42,25 @@ public class PlayerController : MonoBehaviour
             _canMove = false;
         }
     }
-    private float moveDistance = 2f;
+    
+    private const float MoveDistance = 2f;
+
     private void FindTarget(Direction direct)
     {
         if (!_playerTranform || !_playerTranform.gameObject.activeSelf) return;
         switch (direct)
         {
-            case Direction.SwiptLeft:
-                Raycasting(_playerTranform.position, Vector3.left * moveDistance);
+            case Direction.SwipeLeft:
+                Raycasting(_playerTranform.position, Vector3.left * MoveDistance);
                 break;
-            case Direction.SwiptRight:
-                Raycasting(_playerTranform.position, Vector3.right * moveDistance);
+            case Direction.SwipeRight:
+                Raycasting(_playerTranform.position, Vector3.right * MoveDistance);
                 break;
-            case Direction.SwiptForward:
-                Raycasting(_playerTranform.position, Vector3.forward * moveDistance);
+            case Direction.SwipeForward:
+                Raycasting(_playerTranform.position, Vector3.forward * MoveDistance);
                 break;
-            case Direction.SwiptBackward:
-                Raycasting(_playerTranform.position, Vector3.back * moveDistance);
+            case Direction.SwipeBackward:
+                Raycasting(_playerTranform.position, Vector3.back * MoveDistance);
                 break;
             case Direction.None:
                 break;
@@ -60,8 +72,7 @@ public class PlayerController : MonoBehaviour
 
     private bool Raycasting(Vector3 startRay, Vector3 direct)
     {
-        RaycastHit hit;
-        if (!Physics.Raycast(startRay, direct, out hit, 1.5f * moveDistance)) 
+        if (!Physics.Raycast(startRay, direct, out var hit, 1.5f * MoveDistance)) 
         {
             return false;
         }

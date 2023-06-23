@@ -6,7 +6,6 @@ public class VolumeManager : MonoBehaviour
     [SerializeField] private Image currentImage;
     [SerializeField] private Sprite volumeOn;
     [SerializeField] private Sprite volumeOff;
-
     private void Start()
     {
         StartVolume();

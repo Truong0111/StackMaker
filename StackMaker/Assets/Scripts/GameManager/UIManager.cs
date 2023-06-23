@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private TextMeshProUGUI coinText;
     [SerializeField] private GameObject endLevelPanel;
-
+    
     #region  Singleton
     public static UIManager Ins;
     private void Awake()

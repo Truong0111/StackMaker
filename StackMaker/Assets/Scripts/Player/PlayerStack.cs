@@ -38,12 +38,12 @@ public class PlayerStack : MonoBehaviour
             TreasureManager.Ins.OpenTreasure();
             SfxController.Ins.PlaySfx(SfxType.OpenChest);
         }
-        if (other.CompareTag(Const.ENABLE_STACK_TAG))
+        else if (other.CompareTag(Const.ENABLE_STACK_TAG))
         {
             SfxController.Ins.PlaySfx(SfxType.PushStack);
             PushToStack();
         }
-        if (other.CompareTag(Const.UNENABLE_STACK_TAG))
+        else if (other.CompareTag(Const.UNENABLE_STACK_TAG))
         {
             SfxController.Ins.PlaySfx(SfxType.PopStack);
             PopFromStack(other.transform.position + Vector3.down * StackHeight);
@@ -64,11 +64,11 @@ public class PlayerStack : MonoBehaviour
         playerStack.localPosition = new Vector3(0, _stack.Count * StackHeight, 0);
     }
 
-    private void PopFromStack(Vector3 popedPosition)
+    private void PopFromStack(Vector3 poppedPosition )
     {
         var stack = _stack.Pop();
         stack.transform.parent = GameObject.FindGameObjectWithTag("Level").transform;
-        stack.transform.position = popedPosition + Vector3.up * 0.1f;
+        stack.transform.position = poppedPosition  + Vector3.up * 0.1f;
         stack.tag = Const.WALKABLE_STACK_TAG;
         playerStack.localPosition = new Vector3(0, _stack.Count * StackHeight, 0);
     }
