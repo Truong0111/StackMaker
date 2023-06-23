@@ -11,6 +11,8 @@ TagManager:
   - WinPos
   - EndPos
   - WalkableStack
+  - TreasureRid
+  - Level
   layers:
   - Default
   - TransparentFX

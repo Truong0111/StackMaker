@@ -5,29 +5,26 @@ using UnityEngine;
 public class PlayerStack : MonoBehaviour
 {
     public Animator anim;
-    
     public GameObject standStackPrefabs;
-
     public Transform stackContainer;
     public Transform playerStack;
-
-    public bool IsWin { get; set; }
-
-    private Stack<GameObject> _Stack;
-
-    private float stackHeight = 0.3f;
-
+    public bool IsWin { get; private set; }
+    private Stack<GameObject> _stack;
+    private const float StackHeight = 0.3f;
+    private static readonly int Win = Animator.StringToHash("isWin");
+    
     #region Singleton
     public static PlayerStack Ins;
     private void Awake()
     {
         Ins = this;
+        IsWin = false;
     }
     #endregion
 
-    void Start()
+    private void Start()
     {
-        _Stack = new Stack<GameObject>();
+        _stack = new Stack<GameObject>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -35,44 +32,45 @@ public class PlayerStack : MonoBehaviour
         if (other.CompareTag(Const.WIN_POS_TAG))
         {
             IsWin = true;
+            Pref.Coin += 50;
             RunAnim(true);
-            SfxController.Ins.PlayLevelCompleteSfx();
+            SfxController.Ins.PlaySfx(SfxType.LevelComplete);
             TreasureManager.Ins.OpenTreasure();
-            SfxController.Ins.PlayOpenChestSfx();
+            SfxController.Ins.PlaySfx(SfxType.OpenChest);
         }
         if (other.CompareTag(Const.ENABLE_STACK_TAG))
         {
-            SfxController.Ins.PlayPushStackSfx();
+            SfxController.Ins.PlaySfx(SfxType.PushStack);
             PushToStack();
         }
         if (other.CompareTag(Const.UNENABLE_STACK_TAG))
         {
-            SfxController.Ins.PlayPopStackSfx();
-            PopFromStack(other.transform.position + Vector3.down * stackHeight);
+            SfxController.Ins.PlaySfx(SfxType.PopStack);
+            PopFromStack(other.transform.position + Vector3.down * StackHeight);
         }
     }
 
-    public void RunAnim(bool isWin)
+    private void RunAnim(bool isWin)
     {
-        anim.SetBool("isWin", isWin);
+        anim.SetBool(Win, isWin);
     }
 
     private void PushToStack()
     {
-        GameObject stack = Instantiate(standStackPrefabs, transform.position, Quaternion.identity, stackContainer);
-        _Stack.Push(stack);
+        var stack = Instantiate(standStackPrefabs, stackContainer.position, Quaternion.identity, stackContainer);
+        _stack.Push(stack);
 
-        stack.transform.localPosition = new Vector3(0, (_Stack.Count - 1) * stackHeight, 0);
-        playerStack.localPosition = new Vector3(0, _Stack.Count * stackHeight, 0);
+        stack.transform.localPosition = new Vector3(0, (_stack.Count - 1) * StackHeight, 0);
+        playerStack.localPosition = new Vector3(0, _stack.Count * StackHeight, 0);
     }
 
     private void PopFromStack(Vector3 popedPosition)
     {
-        GameObject stack = _Stack.Pop();
-        stack.transform.parent = null;
+        var stack = _stack.Pop();
+        stack.transform.parent = GameObject.FindGameObjectWithTag("Level").transform;
         stack.transform.position = popedPosition + Vector3.up * 0.1f;
         stack.tag = Const.WALKABLE_STACK_TAG;
-        playerStack.localPosition = new Vector3(0, _Stack.Count * stackHeight, 0);
+        playerStack.localPosition = new Vector3(0, _stack.Count * StackHeight, 0);
     }
 
 

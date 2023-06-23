@@ -3,12 +3,10 @@ using UnityEngine;
 
 public class TouchHandler : MonoBehaviour
 {
-    private int TOUCH_HOLD = 111;
+    private const int TouchHold = 111;
 
     public static Action<Direction> OnSwipt;
-    public Direction Direction { get { return direction; } } 
-    private Direction direction = Direction.none;
-    private Direction lastdirection = Direction.none;
+    private Direction _direction = Direction.None;
 
     private Vector2 _touchPos, _touchDis;
     private bool _isDragging = false;
@@ -35,50 +33,34 @@ public class TouchHandler : MonoBehaviour
                 _touchDis = (Vector2)Input.mousePosition - _touchPos;
             }
         }
-        if (_touchDis.magnitude > TOUCH_HOLD)
+
+        if (!(_touchDis.magnitude > TouchHold)) return;
+        var x = _touchDis.x;
+        var y = _touchDis.y;
+        if(Mathf.Abs(x) > Mathf.Abs(y))
         {
-            float x = _touchDis.x;
-            float y = _touchDis.y;
-            if(Mathf.Abs(x) > Mathf.Abs(y))
-            {
-                if(x < 0)
-                {
-                    UpdateDirection(Direction.swiptLeft);
-                }
-                else
-                {
-                    UpdateDirection(Direction.swiptRight);
-                }
-            }
-            else  
-            {
-                if (y < 0)
-                {
-                    UpdateDirection(Direction.swiptBackward);
-                }
-                else
-                {
-                    UpdateDirection(Direction.swiptForward);
-                }
-            }
+            UpdateDirection(x < 0 ? Direction.SwiptLeft : Direction.SwiptRight);
+        }
+        else
+        {
+            UpdateDirection(y < 0 ? Direction.SwiptBackward : Direction.SwiptForward);
         }
     }
     private void UpdateDirection(Direction direct)
     {
-        if(direction != direct)
+        if (OnSwipt != null && _direction != direct)
         {
-            lastdirection = direction;
-            direction = direct;
-            OnSwipt(direction);
+            _direction = direct;
+            OnSwipt(_direction);
         }
     }
 }
 
 public enum Direction
 {
-    swiptLeft,
-    swiptRight,
-    swiptForward,
-    swiptBackward,
-    none
+    SwiptLeft,
+    SwiptRight,
+    SwiptForward,
+    SwiptBackward,
+    None
 }

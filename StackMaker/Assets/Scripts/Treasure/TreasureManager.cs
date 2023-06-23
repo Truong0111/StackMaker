@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class TreasureManager : MonoBehaviour
 {
-    public GameObject treasureRid;
+    [SerializeField] private GameObject treasureRid;
     private bool _isOpen;
 
     #region Singleton
@@ -17,33 +18,30 @@ public class TreasureManager : MonoBehaviour
 
     private void Start()
     {
-        initStart();
+        InitStart();
     }
     private void Update()
     {
-        initUpdate();
+        InitUpdate();
     }
-
-    #region init
-    private void initStart()
+    private void InitStart()
     {
         this.enabled = false;
         _isOpen = false;
     }
-    private float maxRotateOpen = 0.45f;
-    private void initUpdate()
+
+    private const float MaxRotateOpen = 0.45f;
+
+    private void InitUpdate()
     {
-        if (_isOpen)
-        {
-            if (treasureRid.transform.localRotation.x <= maxRotateOpen) OpenTreasure();
-        }
+        if (!_isOpen) return;
+        if (treasureRid.transform.localRotation.x <= MaxRotateOpen) OpenTreasure();
     }
-    #endregion
 
     public void OpenTreasure()
     {
         _isOpen = true;
         this.enabled = true;
-        treasureRid.transform.Rotate(0.5f,0,0); //+= rotation.x 0.05f per frame
+        treasureRid.transform.Rotate(Vector3.right, 45f * Time.deltaTime);
     }
 }

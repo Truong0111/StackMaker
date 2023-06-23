@@ -18,20 +18,31 @@ public class SfxController : MonoBehaviour
     }
     #endregion
 
-    public void PlayLevelCompleteSfx()
+    public void PlaySfx(AudioClip clip)
     {
-        aus.PlayOneShot(levelComplete);
+        aus.PlayOneShot(clip);
     }
-    public void PlayOpenChestSfx()
+    public void PlaySfx(SfxType sfxType)
     {
-        aus.PlayOneShot(openChest);
+        AudioClip clip = sfxType switch
+        {
+            SfxType.LevelComplete => levelComplete,
+            SfxType.OpenChest => openChest,
+            SfxType.PopStack => popStack,
+            SfxType.PushStack => pushStack,
+            _ => null
+        };
+
+        if (clip != null)
+        {
+            aus.PlayOneShot(clip);
+        }
     }
-    public void PlayPopStackSfx()
-    {
-        aus.PlayOneShot(popStack);
-    }
-    public void PlayPushStackSfx()
-    {
-        aus.PlayOneShot(pushStack);
-    }
+}
+public enum SfxType
+{
+    LevelComplete,
+    OpenChest,
+    PopStack,
+    PushStack
 }

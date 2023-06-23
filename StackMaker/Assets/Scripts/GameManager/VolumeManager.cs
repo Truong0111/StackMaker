@@ -4,41 +4,55 @@ using UnityEngine.UI;
 public class VolumeManager : MonoBehaviour
 {
     [SerializeField] private Image currentImage;
-    [SerializeField] private Sprite VolumeOn;
-    [SerializeField] private Sprite VolumeOff;
+    [SerializeField] private Sprite volumeOn;
+    [SerializeField] private Sprite volumeOff;
 
     private void Start()
     {
         StartVolume();
+        LoadVolume();
     }
     private void StartVolume()
     {
         if(!PlayerPrefs.HasKey(Const.CUR_VOLUME_ICON_ID))
         {
             Pref.CurVolIconId = 1;
-            currentImage.sprite = VolumeOn;
-            VolumeController.Ins.SetVolumeOn();
+            currentImage.sprite = volumeOn;
+            SetVolumeOn();
         }
         else
         {
-            if (Pref.CurVolIconId == 1)
-                currentImage.sprite = VolumeOn;
-            else currentImage.sprite = VolumeOff;
+            currentImage.sprite = Pref.CurVolIconId == 1 ? volumeOn : volumeOff;
         }
     }
     public void VolumeChange()
     {
         if (Pref.CurVolIconId == 1)
         {
-            currentImage.sprite = VolumeOff;
+            currentImage.sprite = volumeOff;
             Pref.CurVolIconId = 0;
-            VolumeController.Ins.SetVolumeOff();
+            SetVolumeOff();
         }
         else
         {
-            currentImage.sprite = VolumeOn;
+            currentImage.sprite = volumeOn;
             Pref.CurVolIconId = 1;
-            VolumeController.Ins.SetVolumeOn();
+            SetVolumeOn();
         }
+    }
+    private void SetVolumeOff()
+    {
+        Pref.MusicVolume = 0;
+        LoadVolume();
+    }
+    private void SetVolumeOn()
+    {
+        Pref.MusicVolume = 0.5f;
+        LoadVolume();
+    }
+    private void LoadVolume()
+    {
+        var volumeValue = Pref.MusicVolume;
+        AudioListener.volume = volumeValue;
     }
 }

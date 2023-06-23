@@ -10,6 +10,7 @@ public class Const : MonoBehaviour
     public const string UNENABLE_STACK_TAG = "UnEnableStack";
     public const string WALKABLE_STACK_TAG = "WalkableStack";
     public const string WIN_POS_TAG = "WinPos";
+    public const string END_POS_TAG = "EndPos";
     #endregion
 
     #region PlayerPref
